@@ -1,9 +1,0 @@
-# goreleaser.yml
-builds:
-  - main: ./cmd/vmbx.go
-    id: "vmbx"
-    binary: vmbx
-    goos:
-      - linux
-      - darwin
-      - windows
