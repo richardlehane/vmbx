@@ -24,7 +24,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/srnsw/vmbx"
+	"github.com/richardlehane/vmbx"
 )
 
 var (
