@@ -1,0 +1,6 @@
+repo: richardlehane/vmbx
+binary_name: vmbx
+build:
+  dir: cmd
+  oses:
+    - windows
