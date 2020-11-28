@@ -1,6 +1,9 @@
-repo: richardlehane/vmbx
-binary_name: vmbx
-build:
-  dir: cmd
-  oses:
-    - windows
+# goreleaser.yml
+builds:
+  - main: ./cmd/vmbx.go
+    id: "vmbx"
+    binary: vmbx
+    goos:
+      - linux
+      - darwin
+      - windows
