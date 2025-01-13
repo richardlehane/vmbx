@@ -6,11 +6,10 @@ This is a library and command line tool for working with HP TRIM VMBX email file
 
 From source:
 
-	go get github.com/srnsw/vmbx/cmd
+	go install github.com/richardlehane/vmbx/vmbx@latest
 
-Or get a precompiled Windows 64-bit binary from the [releases page](https://github.com/srnsw/vmbx/releases).
+Or get a precompiled Windows 64-bit binary from the [releases page](https://github.com/richardlehane/vmbx/releases).
 
-To use the mail conversion function you also need to install a siegfried signature file on your computer (normally in a "siegfried" folder within your home directory). See [siegfried](https://github.com/richardlehane/siegfried) for more information.
 
 ## Usage
 
@@ -22,8 +21,5 @@ To convert a VMBX file, or set of files, to EML format, do:
 
 	vmbx -mail FILE or DIR
 
-If you haven't installed the siegfried signature file in a "siegfried" folder within your home directory, you can specify an alternate location with the "-sig" flag:
-
-	vmbx -sig "c:\default.sig" -mail FILE or DIR
 
 
