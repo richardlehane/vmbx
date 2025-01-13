@@ -39,7 +39,7 @@ builds:
       - darwin_amd64_v1
       - darwin_arm64_v8.0
     dir: .
-    main: ./cmd/vmbx.go
+    main: ./vmbx/vmbx.go
     binary: vmbx
     builder: go
     tool: go

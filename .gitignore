@@ -1,2 +1,2 @@
-*.vmbx# Added by goreleaser init:
+*.vmbx
 dist/
