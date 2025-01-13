@@ -16,31 +16,20 @@ package vmbx
 
 import (
 	"bytes"
-	"io/ioutil"
+	"io"
 	"os"
-	"os/user"
-	"path/filepath"
 	"testing"
 )
-
-var sfLoc string
-
-func init() {
-	usr, err := user.Current()
-	if err == nil {
-		sfLoc = filepath.Join(usr.HomeDir, "siegfried", "default.sig")
-	}
-}
 
 func TestNew(t *testing.T) {
 	if _, err := os.Stat("test.vmbx"); err != nil {
 		return
 	}
 	f, err := os.Open("test.vmbx")
-	defer f.Close()
 	if err != nil {
 		t.Fatalf("failed to open test file got %v", err)
 	}
+	defer f.Close()
 	v, err := New(f)
 	if err != nil {
 		t.Fatalf("failed to parse vmbx file got %v", err)
@@ -50,7 +39,7 @@ func TestNew(t *testing.T) {
 		if err != nil {
 			t.Fatalf("failed to get reader got %v", err)
 		}
-		byts, err := ioutil.ReadAll(rdr)
+		byts, err := io.ReadAll(rdr)
 		if err != nil {
 			t.Fatalf("bad read got %v", err)
 		}
@@ -65,16 +54,16 @@ func TestMail(t *testing.T) {
 		return
 	}
 	f, err := os.Open("test.vmbx")
-	defer f.Close()
 	if err != nil {
 		t.Fatalf("failed to open test file got %v", err)
 	}
+	defer f.Close()
 	v, err := New(f)
 	if err != nil {
 		t.Fatalf("failed to parse vmbx file got %v", err)
 	}
 	buf := &bytes.Buffer{}
-	err = v.Mail(buf, sfLoc)
+	err = v.Mail(buf)
 	if err != nil {
 		t.Fatalf("failed to write mail message, got %v", err)
 	}
@@ -85,16 +74,16 @@ func TestEmpty(t *testing.T) {
 		return
 	}
 	f, err := os.Open("test_empty.vmbx")
-	defer f.Close()
 	if err != nil {
 		t.Fatalf("failed to open test file got %v", err)
 	}
+	defer f.Close()
 	v, err := New(f)
 	if err != nil {
 		t.Fatalf("failed to parse vmbx file got %v", err)
 	}
 	buf := &bytes.Buffer{}
-	err = v.Mail(buf, sfLoc)
+	err = v.Mail(buf)
 	if err != nil {
 		t.Fatalf("failed to write mail message, got %v", err)
 	}

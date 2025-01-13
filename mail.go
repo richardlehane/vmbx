@@ -24,6 +24,7 @@ import (
 
 	"github.com/richardlehane/siegfried"
 	"github.com/richardlehane/siegfried/pkg/pronom"
+	"github.com/richardlehane/siegfried/pkg/static"
 )
 
 var (
@@ -33,13 +34,10 @@ var (
 	dateFmt2 = "02-Jan-2006 15:04:05"
 )
 
-func (v *VMBX) Mail(w io.Writer, sfLoc string) error {
+func (v *VMBX) Mail(w io.Writer) error {
 	var err error
 	if sf == nil {
-		sf, err = siegfried.Load(sfLoc)
-		if err != nil {
-			return err
-		}
+		sf = static.New()
 	}
 	uniqs := map[string]bool{
 		"TRIM-Embedded": true,
@@ -87,9 +85,12 @@ func (v *VMBX) Mail(w io.Writer, sfLoc string) error {
 	for _, a := range v.Attachments() {
 		attachHdr.Set("Content-Disposition", fmt.Sprintf("attachment; filename=\"%s\"", a.Name))
 		irdr, err := a.Reader(true)
+		if err != nil {
+			return err
+		}
 		ids, err := sf.Identify(irdr, a.Name, "")
 		if err != nil {
-			return fmt.Errorf("Error identifying %s; got %v", a.Name, err)
+			return fmt.Errorf("error identifying %s; got %v", a.Name, err)
 		}
 		var mime string
 		for _, id := range ids {

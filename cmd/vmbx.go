@@ -20,7 +20,6 @@ import (
 	"io"
 	"log"
 	"os"
-	"os/user"
 	"path/filepath"
 	"strings"
 
@@ -30,7 +29,6 @@ import (
 var (
 	dflag = flag.Bool("dump", false, "dump attachments from VMBX file or VMBX files within directory")
 	mflag = flag.Bool("mail", false, "convert VMBX file or VMBX files within directory to multipart MIME email")
-	sfLoc = flag.String("sig", "", "location of siegfried signature file")
 )
 
 func main() {
@@ -38,17 +36,6 @@ func main() {
 	target := flag.Arg(0)
 	if target == "" {
 		log.Fatal("need a VMBX file or directory target")
-	}
-	if *mflag {
-		if *sfLoc == "" {
-			usr, err := user.Current()
-			if err == nil {
-				*sfLoc = filepath.Join(usr.HomeDir, "siegfried", "default.sig")
-			}
-		}
-		if _, err := os.Stat(*sfLoc); err != nil {
-			log.Fatal("can't find location of siegfried signature file")
-		}
 	}
 
 	err := filepath.Walk(target, func(path string, info os.FileInfo, err error) error {
@@ -91,7 +78,7 @@ func mail(p string) error {
 	if err != nil {
 		return err
 	}
-	err = v.Mail(target, *sfLoc)
+	err = v.Mail(target)
 	if err != nil {
 		return err
 	}
